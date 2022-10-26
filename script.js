@@ -1,6 +1,38 @@
-function getCoffee() {
-    fetch(`https://api.sampleapis.com/coffee/hot`)
-    .then()
-    .then()
-    .catch(console.error)
+const coffeeContainer = document.querySelector('main')
+
+function setLoading() {
+    coffeeContainer.innerHTML = ''
+    const h2 = document.createElement('h2')
+    const loading = document.createTextNode('LOADING...')
+    h2.appendChild(loading)
+    coffeeContainer.appendChild(h2)
 }
+
+function displayCoffeeList(coffeeList) {
+    coffeeContainer.innerHTML = ''
+      coffeeList.map(coffee => {
+     const cards = document.createElement('div')
+     const img = document.createElement('img')
+     const title = document.createElement('h3')  
+     const description = document.createElement('p')
+     title.appendChild(document.createTextNode(coffee.title))
+     description.appendChild(document.createTextNode(coffee.description))
+     cards.appendChild(title)
+     cards.appendChild(description)
+     coffeeContainer.appendChild(cards)
+
+    })   
+}
+
+function getCoffee() {
+    setLoading()
+    fetch(`https://api.sampleapis.com/coffee/hot`)
+    .then(response => response.json())
+    .then(displayCoffeeList)
+    .catch(console.error)  // TODO: display error for user 
+}
+
+
+
+
+getCoffee()
